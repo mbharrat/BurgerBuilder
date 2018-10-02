@@ -8,6 +8,8 @@ import axios from '../../axios-order';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../withErrorHandler/withErrorHandler';
 
+//store these prices on a server?? @TODO
+//const INGREDIENT_Prices;
 const INGREDIENT_PRICES = {
 	lettuce: 0.2,
 	cheese: 0.5,
@@ -34,9 +36,19 @@ class BurgerBuilder extends Component {
 		axios.get('https://mikeburger-c1225.firebaseio.com/ingredients.json')
 			.then(response => {
 				this.setState({ingredients: response.data});
+
 			}).catch(error=>{
 				this.setState({error: true});
 			});
+		/*
+		axios.get('https://mikeburger-c1225.firebaseio.com/ingredientPrices.json')
+			.then(response => {
+				//INGREDIENT_Prices = response.data;
+				
+			}).catch(error=>{
+				this.setState({error: true});
+			});
+		*/
 	}
 
 	updatePurchaseState = (ingredients) => {
@@ -95,6 +107,8 @@ class BurgerBuilder extends Component {
 	}
 	continuePurchaseHandler = () => {
 		//alert("You will continue");
+		/* want to go to checkout first now
+		/***********************************************************
 		this.setState({loading: true})
 		const order = {
 			ingredients: this.state.ingredients,
@@ -116,7 +130,14 @@ class BurgerBuilder extends Component {
 				this.setState({loading: false, didClickOrder: false});
 			});
 
-
+	*/
+		const queryParam = [];
+		for(let i in this.state.ingredients){
+			//encodes elements so they can be used in URL
+			queryParam.push(encodeURIComponent(i) + '='+encodeURIComponent(this.state.ingredients[i]));
+		}
+		const queryString = queryParam.join('&');
+		this.props.history.push({pathname: '/checkout', search: '?'+queryString});
 	}
 	render(){
 		const disabledInfo = {
