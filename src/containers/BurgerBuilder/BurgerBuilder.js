@@ -9,14 +9,15 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../withErrorHandler/withErrorHandler';
 
 //store these prices on a server?? @TODO
-//const INGREDIENT_Prices;
+let INGREDIENT_PRICES = {};
+/*
 const INGREDIENT_PRICES = {
 	lettuce: 0.2,
 	cheese: 0.5,
 	bacon: 1,
 	meat: 1.5
 };
-
+*/
 class BurgerBuilder extends Component {
 	/*
 	constructor(props) {
@@ -40,15 +41,15 @@ class BurgerBuilder extends Component {
 			}).catch(error=>{
 				this.setState({error: true});
 			});
-		/*
+		
 		axios.get('https://mikeburger-c1225.firebaseio.com/ingredientPrices.json')
 			.then(response => {
-				//INGREDIENT_Prices = response.data;
+				INGREDIENT_PRICES = {...response.data};
 				
 			}).catch(error=>{
 				this.setState({error: true});
 			});
-		*/
+		
 	}
 
 	updatePurchaseState = (ingredients) => {
@@ -106,36 +107,13 @@ class BurgerBuilder extends Component {
 		this.setState({didClickOrder: false});
 	}
 	continuePurchaseHandler = () => {
-		//alert("You will continue");
-		/* want to go to checkout first now
-		/***********************************************************
-		this.setState({loading: true})
-		const order = {
-			ingredients: this.state.ingredients,
-			price: this.state.totalPrice,
-			customer: {
-				name: 'Michael Bharrat',
-				address: {
-					street: 'Test1',
-					zipCode:'111111',
-					country:'America'
-				},
-				email: 'mbharrat@gmail.com'
-			},
-			deliveryMethod: 'fastest'
-		}
-		axios.post('/orders.json', order).then(response => {
-			this.setState({loading: false, didClickOrder: false});
-			}).catch(error => {
-				this.setState({loading: false, didClickOrder: false});
-			});
-
-	*/
+	
 		const queryParam = [];
 		for(let i in this.state.ingredients){
 			//encodes elements so they can be used in URL
 			queryParam.push(encodeURIComponent(i) + '='+encodeURIComponent(this.state.ingredients[i]));
 		}
+		queryParam.push('price='+this.state.totalPrice);
 		const queryString = queryParam.join('&');
 		this.props.history.push({pathname: '/checkout', search: '?'+queryString});
 	}
