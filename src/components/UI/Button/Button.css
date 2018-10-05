@@ -8,6 +8,18 @@
     padding: 10px;
     margin: 10px;
     font-weight: bold;
+
+}
+
+
+.Button:first-of-type {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.Button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
 }
 
 .Button:first-of-type {
