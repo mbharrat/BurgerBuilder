@@ -60,7 +60,9 @@ class BurgerBuilder extends Component {
 		return sum > 0;
 	}
 	
-/*
+/***********************************************************************************************************************/
+/*    		removed with redux
+
 	addIngredientHandler = (type) => {
 		const oldCount = this.state.ingredients[type];
 		const updatedCount = oldCount+1;
@@ -95,7 +97,7 @@ class BurgerBuilder extends Component {
 		this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
 		this.updatePurchaseState(updatedIngredients);
 	}
-*/
+/***********************************************************************************************************************/
 	
 	didClickOrderHandler = () => {
 		this.setState({didClickOrder: true});
@@ -103,6 +105,10 @@ class BurgerBuilder extends Component {
 	cancelOrderHandler = () => {
 		this.setState({didClickOrder: false});
 	}
+
+/***********************************************************************************************************************/
+	/* with redux you do not need query params
+
 	continuePurchaseHandler = () => {
 	
 		const queryParam = [];
@@ -113,6 +119,11 @@ class BurgerBuilder extends Component {
 		queryParam.push('price='+this.props.price);
 		const queryString = queryParam.join('&');
 		this.props.history.push({pathname: '/checkout', search: '?'+queryString});
+	}
+/***********************************************************************************************************************/
+
+	continuePurchaseHandler = () => {
+		this.props.history.push({pathname: '/checkout'});
 	}
 
 	render(){
